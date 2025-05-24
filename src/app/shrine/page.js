@@ -21,7 +21,7 @@ export default function OmikujiPage() {
     <main className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
       <h1 className="text-4xl font-bold mb-8">夜祭神社</h1>
 
-      <div className="w-80 h-56 perspective mb-4">
+      <div className="w-80 h-56 perspective-1000 mb-4">
         <AnimatePresence mode="wait">
           {selected && (
             <motion.div
@@ -30,19 +30,15 @@ export default function OmikujiPage() {
               animate={{ rotateY: flipped ? 180 : 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative w-full h-full preserve-3d"
+              className="relative w-full h-full transform-3d"
             >
               {/* Front */}
-              <div
-                className={`absolute w-full h-full backface-hidden flex items-center justify-center bg-red-800 rounded-2xl shadow-xl text-xl`}
-              >
+              <div className="absolute w-full h-full backface-hidden flex items-center justify-center bg-red-800 rounded-2xl shadow-xl text-xl">
                 抽籤中...
               </div>
 
               {/* Back */}
-              <div
-                className={`absolute w-full h-full backface-hidden rotate-y-180 bg-gray-100 text-gray-900 p-4 rounded-2xl shadow-xl flex flex-col justify-center`}
-              >
+              <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-100 text-gray-900 p-4 rounded-2xl shadow-xl flex flex-col justify-center">
                 <div className="text-2xl font-semibold mb-2 text-center">
                   {selected.type}
                 </div>
