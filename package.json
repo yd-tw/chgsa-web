@@ -10,6 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@next/third-parties": "^15.3.2",
     "motion": "^12.12.2",
     "next": "^15.3.2",
     "react": "^19.1.0",
