@@ -4,12 +4,26 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import omikujiData from "@/data/omikuji.json";
 
+interface Omikuji {
+  id: number;
+  type: string;
+  text: {
+    [key: string]: string;
+  };
+}
+
 export default function OmikujiPage() {
-  const [selected, setSelected] = useState(null);
-  const [flipped, setFlipped] = useState(false);
+  const [selected, setSelected] = useState<Omikuji | null>(null);
+  const [flipped, setFlipped] = useState<boolean>(false);
+
+  // Add id to each omikuji item if not present
+  const omikujiWithId: Omikuji[] = omikujiData.map((item: any, idx: number) => ({
+    id: item.id ?? idx,
+    ...item,
+  }));
 
   const handleDraw = () => {
-    const random = omikujiData[Math.floor(Math.random() * omikujiData.length)];
+    const random: Omikuji = omikujiWithId[Math.floor(Math.random() * omikujiWithId.length)];
     setFlipped(false);
     setTimeout(() => {
       setSelected(random);
@@ -25,7 +39,7 @@ export default function OmikujiPage() {
         <AnimatePresence mode="wait">
           {selected && (
             <motion.div
-              key={selected.id + flipped}
+              key={selected.id + flipped.toString()}
               initial={{ rotateY: 0 }}
               animate={{ rotateY: flipped ? 180 : 0 }}
               exit={{ opacity: 0 }}
