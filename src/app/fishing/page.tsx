@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Fish {
   id: number;
@@ -26,7 +26,7 @@ const FishCatchingGame: React.FC = () => {
   const [catchEffects, setCatchEffects] = useState<CatchEffect[]>([]);
   const [gameSize, setGameSize] = useState({ width: 800, height: 600 });
 
-  const fishColors = ['🐠', '🐟', '🎣', '🐡', '🦈'];
+  const fishColors = ["🐠", "🐟", "🎣", "🐡", "🦈"];
   const fishSizes = [20, 25, 30, 35, 40];
 
   // 初始化遊戲尺寸
@@ -38,52 +38,55 @@ const FishCatchingGame: React.FC = () => {
     };
 
     updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
   }, []);
 
   // 生成隨機魚
-  const generateFish = useCallback((id: number): Fish => {
-    const edge = Math.floor(Math.random() * 4);
-    let x, y, speedX, speedY;
+  const generateFish = useCallback(
+    (id: number): Fish => {
+      const edge = Math.floor(Math.random() * 4);
+      let x, y, speedX, speedY;
 
-    switch (edge) {
-      case 0: // 上邊
-        x = Math.random() * gameSize.width;
-        y = -50;
-        speedX = (Math.random() - 0.5) * 2;
-        speedY = Math.random() * 2 + 0.5;
-        break;
-      case 1: // 右邊
-        x = gameSize.width + 50;
-        y = Math.random() * gameSize.height;
-        speedX = -(Math.random() * 2 + 0.5);
-        speedY = (Math.random() - 0.5) * 2;
-        break;
-      case 2: // 下邊
-        x = Math.random() * gameSize.width;
-        y = gameSize.height + 50;
-        speedX = (Math.random() - 0.5) * 2;
-        speedY = -(Math.random() * 2 + 0.5);
-        break;
-      default: // 左邊
-        x = -50;
-        y = Math.random() * gameSize.height;
-        speedX = Math.random() * 2 + 0.5;
-        speedY = (Math.random() - 0.5) * 2;
-    }
+      switch (edge) {
+        case 0: // 上邊
+          x = Math.random() * gameSize.width;
+          y = -50;
+          speedX = (Math.random() - 0.5) * 2;
+          speedY = Math.random() * 2 + 0.5;
+          break;
+        case 1: // 右邊
+          x = gameSize.width + 50;
+          y = Math.random() * gameSize.height;
+          speedX = -(Math.random() * 2 + 0.5);
+          speedY = (Math.random() - 0.5) * 2;
+          break;
+        case 2: // 下邊
+          x = Math.random() * gameSize.width;
+          y = gameSize.height + 50;
+          speedX = (Math.random() - 0.5) * 2;
+          speedY = -(Math.random() * 2 + 0.5);
+          break;
+        default: // 左邊
+          x = -50;
+          y = Math.random() * gameSize.height;
+          speedX = Math.random() * 2 + 0.5;
+          speedY = (Math.random() - 0.5) * 2;
+      }
 
-    return {
-      id,
-      x,
-      y,
-      speedX,
-      speedY,
-      size: fishSizes[Math.floor(Math.random() * fishSizes.length)],
-      color: fishColors[Math.floor(Math.random() * fishColors.length)],
-      type: 'fish'
-    };
-  }, [gameSize]);
+      return {
+        id,
+        x,
+        y,
+        speedX,
+        speedY,
+        size: fishSizes[Math.floor(Math.random() * fishSizes.length)],
+        color: fishColors[Math.floor(Math.random() * fishColors.length)],
+        type: "fish",
+      };
+    },
+    [gameSize],
+  );
 
   // 初始化魚群
   useEffect(() => {
@@ -94,16 +97,20 @@ const FishCatchingGame: React.FC = () => {
   // 魚的移動動畫
   useEffect(() => {
     const interval = setInterval(() => {
-      setFish(prevFish => {
-        return prevFish.map(f => {
+      setFish((prevFish) => {
+        return prevFish.map((f) => {
           let newX = f.x + f.speedX;
           let newY = f.y + f.speedY;
           let newSpeedX = f.speedX;
           let newSpeedY = f.speedY;
 
           // 邊界檢測和反彈
-          if (newX < -50 || newX > gameSize.width + 50 || 
-              newY < -50 || newY > gameSize.height + 50) {
+          if (
+            newX < -50 ||
+            newX > gameSize.width + 50 ||
+            newY < -50 ||
+            newY > gameSize.height + 50
+          ) {
             return generateFish(f.id);
           }
 
@@ -120,7 +127,7 @@ const FishCatchingGame: React.FC = () => {
             x: newX,
             y: newY,
             speedX: newSpeedX,
-            speedY: newSpeedY
+            speedY: newSpeedY,
           };
         });
       });
@@ -130,45 +137,51 @@ const FishCatchingGame: React.FC = () => {
   }, [gameSize, generateFish]);
 
   // 處理點擊捕魚
-  const handleCatch = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const clickY = event.clientY - rect.top;
+  const handleCatch = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
 
-    // 檢查是否點擊到魚
-    let caughtFish = false;
-    setFish(prevFish => {
-      return prevFish.filter(f => {
-        const distance = Math.sqrt(
-          Math.pow(clickX - f.x, 2) + Math.pow(clickY - f.y, 2)
-        );
-        
-        if (distance < f.size) {
-          caughtFish = true;
-          setScore(prev => prev + 10);
-          
-          // 添加捕捉特效
-          const effectId = Date.now();
-          setCatchEffects(prev => [...prev, { id: effectId, x: f.x, y: f.y }]);
-          
-          // 移除特效
-          setTimeout(() => {
-            setCatchEffects(prev => prev.filter(e => e.id !== effectId));
-          }, 1000);
-          
-          return false; // 移除被捕捉的魚
-        }
-        return true;
+      // 檢查是否點擊到魚
+      let caughtFish = false;
+      setFish((prevFish) => {
+        return prevFish.filter((f) => {
+          const distance = Math.sqrt(
+            Math.pow(clickX - f.x, 2) + Math.pow(clickY - f.y, 2),
+          );
+
+          if (distance < f.size) {
+            caughtFish = true;
+            setScore((prev) => prev + 10);
+
+            // 添加捕捉特效
+            const effectId = Date.now();
+            setCatchEffects((prev) => [
+              ...prev,
+              { id: effectId, x: f.x, y: f.y },
+            ]);
+
+            // 移除特效
+            setTimeout(() => {
+              setCatchEffects((prev) => prev.filter((e) => e.id !== effectId));
+            }, 1000);
+
+            return false; // 移除被捕捉的魚
+          }
+          return true;
+        });
       });
-    });
 
-    // 如果捕到魚，生成新的魚
-    if (caughtFish) {
-      setTimeout(() => {
-        setFish(prevFish => [...prevFish, generateFish(Date.now())]);
-      }, 500);
-    }
-  }, [generateFish]);
+      // 如果捕到魚，生成新的魚
+      if (caughtFish) {
+        setTimeout(() => {
+          setFish((prevFish) => [...prevFish, generateFish(Date.now())]);
+        }, 500);
+      }
+    },
+    [generateFish],
+  );
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-300 to-blue-600 p-4">
@@ -183,12 +196,12 @@ const FishCatchingGame: React.FC = () => {
         </div>
       </div>
 
-      <div 
+      <div
         className="relative bg-gradient-to-b from-cyan-200 to-blue-400 rounded-lg overflow-hidden cursor-crosshair shadow-2xl border-4 border-blue-500"
-        style={{ 
-          width: gameSize.width, 
+        style={{
+          width: gameSize.width,
           height: gameSize.height,
-          touchAction: 'manipulation'
+          touchAction: "manipulation",
         }}
         onClick={handleCatch}
       >
@@ -202,14 +215,14 @@ const FishCatchingGame: React.FC = () => {
             transition={{
               duration: 4,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
           />
         </div>
 
         {/* 魚群 */}
         <AnimatePresence>
-          {fish.map(f => (
+          {fish.map((f) => (
             <motion.div
               key={f.id}
               className="absolute select-none pointer-events-none"
@@ -217,27 +230,27 @@ const FishCatchingGame: React.FC = () => {
                 left: f.x - f.size / 2,
                 top: f.y - f.size / 2,
                 fontSize: f.size,
-                transform: f.speedX < 0 ? 'scaleX(-1)' : 'scaleX(1)',
+                transform: f.speedX < 0 ? "scaleX(-1)" : "scaleX(1)",
               }}
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
+              animate={{
+                scale: 1,
                 opacity: 1,
-                rotate: [0, 5, -5, 0]
+                rotate: [0, 5, -5, 0],
               }}
-              exit={{ 
-                scale: 0, 
+              exit={{
+                scale: 0,
                 opacity: 0,
-                rotate: 360
+                rotate: 360,
               }}
               transition={{
                 scale: { duration: 0.3 },
                 opacity: { duration: 0.3 },
-                rotate: { 
+                rotate: {
                   duration: 2,
                   repeat: Infinity,
-                  ease: "easeInOut"
-                }
+                  ease: "easeInOut",
+                },
               }}
             >
               {f.color}
@@ -247,7 +260,7 @@ const FishCatchingGame: React.FC = () => {
 
         {/* 捕捉特效 */}
         <AnimatePresence>
-          {catchEffects.map(effect => (
+          {catchEffects.map((effect) => (
             <motion.div
               key={effect.id}
               className="absolute pointer-events-none"
@@ -256,10 +269,10 @@ const FishCatchingGame: React.FC = () => {
                 top: effect.y - 25,
               }}
               initial={{ scale: 0, opacity: 1 }}
-              animate={{ 
-                scale: [1, 2, 3], 
+              animate={{
+                scale: [1, 2, 3],
                 opacity: [1, 0.5, 0],
-                rotate: [0, 180, 360]
+                rotate: [0, 180, 360],
               }}
               exit={{ opacity: 0 }}
               transition={{ duration: 1 }}
@@ -293,12 +306,8 @@ const FishCatchingGame: React.FC = () => {
       </div>
 
       <div className="mt-4 text-center text-white">
-        <p className="text-sm md:text-base">
-          🎯 點擊魚兒來捕捉它們！
-        </p>
-        <p className="text-xs md:text-sm opacity-80">
-          每捕捉一條魚得 10 分
-        </p>
+        <p className="text-sm md:text-base">🎯 點擊魚兒來捕捉它們！</p>
+        <p className="text-xs md:text-sm opacity-80">每捕捉一條魚得 10 分</p>
       </div>
     </div>
   );

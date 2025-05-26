@@ -17,13 +17,16 @@ export default function OmikujiPage() {
   const [flipped, setFlipped] = useState<boolean>(false);
 
   // Add id to each omikuji item if not present
-  const omikujiWithId: Omikuji[] = omikujiData.map((item: any, idx: number) => ({
-    id: item.id ?? idx,
-    ...item,
-  }));
+  const omikujiWithId: Omikuji[] = omikujiData.map(
+    (item: any, idx: number) => ({
+      id: item.id ?? idx,
+      ...item,
+    }),
+  );
 
   const handleDraw = () => {
-    const random: Omikuji = omikujiWithId[Math.floor(Math.random() * omikujiWithId.length)];
+    const random: Omikuji =
+      omikujiWithId[Math.floor(Math.random() * omikujiWithId.length)];
     setFlipped(false);
     setTimeout(() => {
       setSelected(random);
