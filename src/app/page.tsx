@@ -11,26 +11,26 @@ export default function HomePage() {
   }, []);
 
   const navigationItems = [
-    { title: "夜祭神社", href: "/shrine", icon: "👥" },
-    { title: "戳戳樂", href: "/poke", icon: "🛠️" },
-    { title: "撈金魚", href: "/fishing", icon: "💼" },
+    { title: "夜祭神社", href: "/shrine", icon: "⛩️" },
+    { title: "戳戳樂", href: "/poke", icon: "🎯" },
+    { title: "撈金魚", href: "/fishing", icon: "🐠" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
       {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -inset-10 opacity-50">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-          <div className="absolute top-3/4 right-1/4 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
-          <div className="absolute bottom-1/4 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+        <div className="absolute inset-0 opacity-50">
+          <div className="absolute top-[10%] left-[10%] w-48 h-48 md:w-72 md:h-72 md:top-1/4 md:left-1/4 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+          <div className="absolute top-[60%] right-[10%] w-48 h-48 md:w-72 md:h-72 md:top-3/4 md:right-1/4 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
+          <div className="absolute bottom-[20%] left-[50%] translate-x-[-50%] w-48 h-48 md:w-72 md:h-72 md:bottom-1/4 md:left-1/2 md:translate-x-0 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-16">
+      <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header Section */}
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          className={`text-center mb-12 transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text">
             夜祭31°C
@@ -102,7 +102,7 @@ export default function HomePage() {
 
         {/* Footer Section */}
         <div
-          className={`text-center mt-16 transition-all duration-1000 delay-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          className={`text-center mt-12 transition-all duration-1000 delay-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <div className="inline-flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
             <span>Built from</span>
