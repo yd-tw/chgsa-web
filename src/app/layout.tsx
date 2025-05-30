@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "中和高中第三十一屆畢業典禮 - 夜祭31°C",
+  title: {
+    template: "%s | 中和高中畢業典禮 夜祭31°C",
+    default: "中和高中第三十一屆畢業典禮 - 夜祭31°C",
+  },
   description: "實際體驗夜市的互動遊戲，留下最美好的回憶！由31屆畢籌會設計。",
 };
 
