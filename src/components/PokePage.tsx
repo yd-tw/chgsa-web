@@ -118,9 +118,9 @@ export default function PokePage() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text">
-            🎯 戳戳樂 🎯
+            🎯 回憶戳戳樂 🎯
           </h1>
-          <p className="text-white/80 text-lg">點擊格子，看看你的運氣如何！</p>
+          <p className="text-white/80 text-lg">戳擊格子，拿取在中和的回憶</p>
         </motion.div>
 
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">

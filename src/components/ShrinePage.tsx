@@ -17,7 +17,6 @@ export default function ShrinePage() {
   const [selected, setSelected] = useState<Omikuji | null>(null);
   const [flipped, setFlipped] = useState<boolean>(false);
 
-  // Add id to each omikuji item if not present
   const omikujiWithId: Omikuji[] = omikujiData.map(
     (item: any, idx: number) => ({
       id: item.id ?? idx,

@@ -12,7 +12,7 @@ export default function HomePage() {
 
   const navigationItems = [
     { title: "夜祭神社", href: "/shrine", icon: "⛩️" },
-    { title: "戳戳樂", href: "/poke", icon: "🎯" },
+    { title: "回憶戳戳樂", href: "/poke", icon: "🎯" },
     { title: "撈金魚", href: "/fishing", icon: "🐠" },
   ];
 

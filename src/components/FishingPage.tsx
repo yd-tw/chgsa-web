@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import HomeButton from "@/components/HomeButton";
 
@@ -29,6 +29,7 @@ export default function FishingPage() {
 
   const fishColors = ["🐠", "🐟", "🎣", "🐡", "🦈"];
   const fishSizes = [20, 25, 30, 35, 40];
+  const fishIdRef = useRef(0);
 
   // 初始化遊戲尺寸
   useEffect(() => {
@@ -44,54 +45,55 @@ export default function FishingPage() {
   }, []);
 
   // 生成隨機魚
-  const generateFish = useCallback(
-    (id: number): Fish => {
-      const edge = Math.floor(Math.random() * 4);
-      let x, y, speedX, speedY;
+  const generateFish = useCallback((): Fish => {
+    fishIdRef.current += 1;
+    const id = fishIdRef.current;
+    const edge = Math.floor(Math.random() * 4);
+    let x, y, speedX, speedY;
 
-      switch (edge) {
-        case 0: // 上邊
-          x = Math.random() * gameSize.width;
-          y = -50;
-          speedX = (Math.random() - 0.5) * 2;
-          speedY = Math.random() * 2 + 0.5;
-          break;
-        case 1: // 右邊
-          x = gameSize.width + 50;
-          y = Math.random() * gameSize.height;
-          speedX = -(Math.random() * 2 + 0.5);
-          speedY = (Math.random() - 0.5) * 2;
-          break;
-        case 2: // 下邊
-          x = Math.random() * gameSize.width;
-          y = gameSize.height + 50;
-          speedX = (Math.random() - 0.5) * 2;
-          speedY = -(Math.random() * 2 + 0.5);
-          break;
-        default: // 左邊
-          x = -50;
-          y = Math.random() * gameSize.height;
-          speedX = Math.random() * 2 + 0.5;
-          speedY = (Math.random() - 0.5) * 2;
-      }
+    switch (edge) {
+      case 0: // 上邊
+        x = Math.random() * gameSize.width;
+        y = -50;
+        speedX = (Math.random() - 0.5) * 2;
+        speedY = Math.random() * 2 + 0.5;
+        break;
+      case 1: // 右邊
+        x = gameSize.width + 50;
+        y = Math.random() * gameSize.height;
+        speedX = -(Math.random() * 2 + 0.5);
+        speedY = (Math.random() - 0.5) * 2;
+        break;
+      case 2: // 下邊
+        x = Math.random() * gameSize.width;
+        y = gameSize.height + 50;
+        speedX = (Math.random() - 0.5) * 2;
+        speedY = -(Math.random() * 2 + 0.5);
+        break;
+      default: // 左邊
+        x = -50;
+        y = Math.random() * gameSize.height;
+        speedX = Math.random() * 2 + 0.5;
+        speedY = (Math.random() - 0.5) * 2;
+    }
 
-      return {
-        id,
-        x,
-        y,
-        speedX,
-        speedY,
-        size: fishSizes[Math.floor(Math.random() * fishSizes.length)],
-        color: fishColors[Math.floor(Math.random() * fishColors.length)],
-        type: "fish",
-      };
-    },
+    return {
+      id,
+      x,
+      y,
+      speedX,
+      speedY,
+      size: fishSizes[Math.floor(Math.random() * fishSizes.length)],
+      color: fishColors[Math.floor(Math.random() * fishColors.length)],
+      type: "fish",
+    };
+  },
     [gameSize],
   );
 
   // 初始化魚群
   useEffect(() => {
-    const initialFish = Array.from({ length: 8 }, (_, i) => generateFish(i));
+    const initialFish = Array.from({ length: 8 }, (_, i) => generateFish());
     setFish(initialFish);
   }, [generateFish]);
 
@@ -112,7 +114,7 @@ export default function FishingPage() {
             newY < -50 ||
             newY > gameSize.height + 50
           ) {
-            return generateFish(f.id);
+            return generateFish();
           }
 
           // 隨機改變方向
@@ -177,7 +179,7 @@ export default function FishingPage() {
       // 如果捕到魚，生成新的魚
       if (caughtFish) {
         setTimeout(() => {
-          setFish((prevFish) => [...prevFish, generateFish(Date.now())]);
+          setFish((prevFish) => [...prevFish, generateFish()]);
         }, 500);
       }
     },
