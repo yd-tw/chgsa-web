@@ -93,7 +93,7 @@ export default function FishingPage() {
 
   // 初始化魚群
   useEffect(() => {
-    const initialFish = Array.from({ length: 8 }, (_, i) => generateFish());
+    const initialFish = Array.from({ length: 8 }, () => generateFish());
     setFish(initialFish);
   }, [generateFish]);
 
