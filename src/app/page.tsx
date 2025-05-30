@@ -105,9 +105,8 @@ export default function HomePage() {
           className={`text-center mt-12 transition-all duration-1000 delay-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
           <div className="inline-flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300">
-            <span>Built from</span>
             <div className="w-6 h-6 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full animate-pulse"></div>
-            <span>CHGSA</span>
+            <span>由中和畢籌會與楊光地共同建置</span>
           </div>
         </div>
       </div>

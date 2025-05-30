@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import HomeButton from "@/components/home";
 
 interface Fish {
   id: number;
@@ -185,6 +186,7 @@ const FishCatchingGame: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-300 to-blue-600 p-4">
+      <HomeButton />
       <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
         <h1 className="text-2xl font-bold text-center text-blue-800 mb-2">
           🎣 線上撈魚遊戲

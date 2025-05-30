@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import omikujiData from "@/data/omikuji.json";
+import { Home } from "lucide-react";
+import HomeButton from "@/components/home";
 
 interface Omikuji {
   id: number;
@@ -36,6 +38,7 @@ export default function OmikujiPage() {
 
   return (
     <main className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
+      <HomeButton />
       <h1 className="text-4xl font-bold mb-8">夜祭神社</h1>
 
       <div className="w-80 h-56 perspective-1000 mb-4">

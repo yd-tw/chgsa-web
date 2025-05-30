@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import HomeButton from "@/components/home";
 
 interface Prize {
   id: number;
@@ -23,7 +24,7 @@ const prizes: Prize[] = [
   { id: 10, name: "恭喜獲得 炸臭豆腐乙份", emoji: "🧄", rarity: "common" },
   { id: 11, name: "恭喜獲得 烤香腸乙份", emoji: "🌭", rarity: "common" },
   { id: 12, name: "恭喜獲得 夜市消費券 $500", emoji: "💵", rarity: "epic" },
-  { id: 13, name: "恭喜獲得 玩九宮格免費一次", emoji: "⚾", rarity: "common"},
+  { id: 13, name: "恭喜獲得 玩九宮格免費一次", emoji: "⚾", rarity: "common" },
   { id: 14, name: "恭喜獲得 電子手錶", emoji: "⌚", rarity: "legendary" },
   { id: 15, name: "恭喜獲得 地瓜球乙份", emoji: "🥔", rarity: "common" },
   { id: 16, name: "恭喜獲得 夜市美食券 $1000", emoji: "💸", rarity: "epic" },
@@ -112,6 +113,7 @@ export default function ScratchLotteryGame() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+      <HomeButton />
       <div className="max-w-2xl w-full">
         {/* 標題 */}
         <motion.div
