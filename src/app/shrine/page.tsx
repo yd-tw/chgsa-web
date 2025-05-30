@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import omikujiData from "@/data/omikuji.json";
-import { Home } from "lucide-react";
 import HomeButton from "@/components/home";
 
 interface Omikuji {

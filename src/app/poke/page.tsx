@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import HomeButton from "@/components/home";
 
 interface Prize {
   id: number;
@@ -53,9 +52,7 @@ const getRarityColor = (rarity: string) => {
 };
 
 export default function ScratchLotteryGame() {
-  const [gameGrid, setGameGrid] = useState<(Prize | null)[]>(
-    Array(25).fill(null),
-  );
+  const [gameGrid, setGameGrid] = useState<(Prize | null)[]>([]);
   const [scratchedBoxes, setScratchedBoxes] = useState<boolean[]>(
     Array(25).fill(false),
   );
@@ -64,20 +61,22 @@ export default function ScratchLotteryGame() {
   );
   const [currentPrize, setCurrentPrize] = useState<Prize | null>(null);
   const [showPrizeModal, setShowPrizeModal] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
 
   const initializeGame = () => {
     const shuffledPrizes = [...prizes].sort(() => Math.random() - 0.5);
     setGameGrid(shuffledPrizes);
     setScratchedBoxes(Array(25).fill(false));
     setScratchingBoxes(Array(25).fill(false));
-    setGameStarted(true);
     setCurrentPrize(null);
     setShowPrizeModal(false);
   };
 
+  useEffect(() => {
+    initializeGame();
+  }, []);
+
   const scratchBox = (index: number) => {
-    if (scratchedBoxes[index] || scratchingBoxes[index] || !gameStarted) return;
+    if (scratchedBoxes[index] || scratchingBoxes[index] || gameGrid.length === 0) return;
 
     // 開始戳開動畫
     const newScratchingBoxes = [...scratchingBoxes];
@@ -102,18 +101,8 @@ export default function ScratchLotteryGame() {
     }, 1000);
   };
 
-  const resetGame = () => {
-    setGameStarted(false);
-    setGameGrid(Array(25).fill(null));
-    setScratchedBoxes(Array(25).fill(false));
-    setScratchingBoxes(Array(25).fill(false));
-    setCurrentPrize(null);
-    setShowPrizeModal(false);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
-      <HomeButton />
       <div className="max-w-2xl w-full">
         {/* 標題 */}
         <motion.div
@@ -127,145 +116,124 @@ export default function ScratchLotteryGame() {
           <p className="text-white/80 text-lg">點擊格子，看看你的運氣如何！</p>
         </motion.div>
 
-        {/* 遊戲區域 */}
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
-          {!gameStarted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center"
-            >
-              <button
-                onClick={initializeGame}
-                className="bg-gradient-to-r from-pink-500 to-violet-500 hover:from-pink-600 hover:to-violet-600 text-white font-bold py-4 px-8 rounded-2xl text-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+          <div className="grid grid-cols-5 gap-2 md:gap-3 mb-6">
+            {gameGrid.map((prize, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, rotateY: -90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                transition={{ delay: index * 0.02 }}
+                className="relative"
               >
-                🚀 開始遊戲
-              </button>
-            </motion.div>
-          ) : (
-            <>
-              {/* 遊戲格子 */}
-              <div className="grid grid-cols-5 gap-2 md:gap-3 mb-6">
-                {gameGrid.map((prize, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, rotateY: -90 }}
-                    animate={{ opacity: 1, rotateY: 0 }}
-                    transition={{ delay: index * 0.02 }}
-                    className="relative"
-                  >
-                    <motion.button
-                      onClick={() => scratchBox(index)}
-                      disabled={scratchedBoxes[index] || scratchingBoxes[index]}
-                      className={`
-                        w-full aspect-square rounded-xl shadow-lg transform transition-all duration-300 relative overflow-hidden
-                        ${
-                          scratchedBoxes[index]
-                            ? `bg-gradient-to-br ${getRarityColor(prize?.rarity || "common")} scale-105`
-                            : "bg-gradient-to-br from-gray-200 to-gray-400 hover:scale-105 hover:shadow-xl cursor-pointer"
-                        }
-                        ${scratchingBoxes[index] ? "cursor-not-allowed" : ""}
-                        ${!scratchedBoxes[index] && !scratchingBoxes[index] ? "hover:from-gray-100 hover:to-gray-300" : ""}
-                      `}
-                      whileHover={{ scale: scratchedBoxes[index] ? 1.05 : 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <AnimatePresence mode="wait">
-                        {scratchingBoxes[index] ? (
-                          <motion.div
-                            key="scratching"
-                            initial={{ scale: 1 }}
-                            animate={{
-                              scale: [1, 1.2, 0.8, 1.1, 0.9, 1],
-                              rotate: [0, -5, 5, -3, 3, 0],
-                            }}
-                            transition={{
-                              duration: 1,
-                              ease: "easeInOut",
-                              times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-                            }}
-                            className="flex items-center justify-center h-full bg-gradient-to-br from-yellow-200 to-orange-300"
-                          >
-                            <motion.div
-                              animate={{
-                                rotate: 360,
-                                scale: [1, 1.3, 1],
-                              }}
-                              transition={{
-                                rotate: { duration: 0.5, repeat: 1 },
-                                scale: { duration: 0.5, repeat: 1 },
-                              }}
-                              className="text-lg md:text-xl"
-                            >
-                              ✨
-                            </motion.div>
-                          </motion.div>
-                        ) : scratchedBoxes[index] && prize ? (
-                          <motion.div
-                            key="revealed"
-                            initial={{ opacity: 0, scale: 0, rotateY: -180 }}
-                            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 200,
-                              damping: 15,
-                              duration: 0.6,
-                            }}
-                            className="flex flex-col items-center justify-center h-full text-white"
-                          >
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{
-                                delay: 0.2,
-                                type: "spring",
-                                stiffness: 300,
-                              }}
-                              className="text-lg md:text-2xl mb-1"
-                            >
-                              {prize.emoji}
-                            </motion.div>
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.4 }}
-                              className="text-[8px] md:text-xs font-bold text-center px-1 leading-tight"
-                            >
-                              {prize.name.length > 8
-                                ? prize.name.substring(0, 8) + "..."
-                                : prize.name}
-                            </motion.div>
-                          </motion.div>
-                        ) : (
-                          <motion.div
-                            key="hidden"
-                            initial={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="flex items-center justify-center h-full"
-                          >
-                            <span className="text-lg md:text-xl">❓</span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.button>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* 重新開始按鈕 */}
-              <div className="text-center">
-                <button
-                  onClick={resetGame}
-                  className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+                <motion.button
+                  onClick={() => scratchBox(index)}
+                  disabled={scratchedBoxes[index] || scratchingBoxes[index]}
+                  className={`
+                    w-full aspect-square rounded-xl shadow-lg transform transition-all duration-300 relative overflow-hidden
+                    ${
+                      scratchedBoxes[index]
+                        ? `bg-gradient-to-br ${getRarityColor(prize?.rarity || "common")} scale-105`
+                        : "bg-gradient-to-br from-gray-200 to-gray-400 hover:scale-105 hover:shadow-xl cursor-pointer"
+                    }
+                    ${scratchingBoxes[index] ? "cursor-not-allowed" : ""}
+                    ${!scratchedBoxes[index] && !scratchingBoxes[index] ? "hover:from-gray-100 hover:to-gray-300" : ""}
+                  `}
+                  whileHover={{ scale: scratchedBoxes[index] ? 1.05 : 1.1 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  🔄 重新開始
-                </button>
-              </div>
-            </>
-          )}
+                  <AnimatePresence mode="wait">
+                    {scratchingBoxes[index] ? (
+                      <motion.div
+                        key="scratching"
+                        initial={{ scale: 1 }}
+                        animate={{
+                          scale: [1, 1.2, 0.8, 1.1, 0.9, 1],
+                          rotate: [0, -5, 5, -3, 3, 0],
+                        }}
+                        transition={{
+                          duration: 1,
+                          ease: "easeInOut",
+                          times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                        }}
+                        className="flex items-center justify-center h-full bg-gradient-to-br from-yellow-200 to-orange-300"
+                      >
+                        <motion.div
+                          animate={{
+                            rotate: 360,
+                            scale: [1, 1.3, 1],
+                          }}
+                          transition={{
+                            rotate: { duration: 0.5, repeat: 1 },
+                            scale: { duration: 0.5, repeat: 1 },
+                          }}
+                          className="text-lg md:text-xl"
+                        >
+                          ✨
+                        </motion.div>
+                      </motion.div>
+                    ) : scratchedBoxes[index] && prize ? (
+                      <motion.div
+                        key="revealed"
+                        initial={{ opacity: 0, scale: 0, rotateY: -180 }}
+                        animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 15,
+                          duration: 0.6,
+                        }}
+                        className="flex flex-col items-center justify-center h-full text-white"
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{
+                            delay: 0.2,
+                            type: "spring",
+                            stiffness: 300,
+                          }}
+                          className="text-lg md:text-2xl mb-1"
+                        >
+                          {prize.emoji}
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.4 }}
+                          className="text-[8px] md:text-xs font-bold text-center px-1 leading-tight"
+                        >
+                          {prize.name.length > 8
+                            ? prize.name.substring(0, 8) + "..."
+                            : prize.name}
+                        </motion.div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="hidden"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center justify-center h-full"
+                      >
+                        <span className="text-lg md:text-xl">❓</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <button
+              onClick={initializeGame}
+              className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+            >
+              🔄 重新開始
+            </button>
+          </div>
         </div>
 
-        {/* 獎品彈窗 */}
         <AnimatePresence>
           {showPrizeModal && currentPrize && (
             <motion.div
