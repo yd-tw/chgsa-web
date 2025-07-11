@@ -16,7 +16,12 @@ const prizes: Prize[] = [
   { id: 2, name: "地震掉下來的磁磚", emoji: "🧱", rarity: "common" },
   { id: 3, name: "颱風吹倒的樹", emoji: "🌳", rarity: "rare" },
   { id: 4, name: "學分", emoji: "📘", rarity: "common" },
-  { id: 5, name: "免上課卡(限中和高中且重補修不適用)", emoji: "🎉", rarity: "legendary" },
+  {
+    id: 5,
+    name: "免上課卡(限中和高中且重補修不適用)",
+    emoji: "🎉",
+    rarity: "legendary",
+  },
   { id: 6, name: "都你在獎", emoji: "🎊", rarity: "common" },
   { id: 7, name: "臭臭樹", emoji: "🌲", rarity: "epic" },
   { id: 8, name: "手機箱(掌控大家手機使用權)", emoji: "📱", rarity: "rare" },

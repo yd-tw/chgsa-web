@@ -17,9 +17,9 @@ export default function ShrinePage() {
   const [selected, setSelected] = useState<Omikuji | null>(null);
   const [flipped, setFlipped] = useState<boolean>(false);
 
-  const omikujiWithId: Omikuji[] = omikujiData.map(
-    (item: any, idx: number) => ({
-      id: item.id ?? idx,
+  const omikujiWithId: Omikuji[] = (omikujiData as Omit<Omikuji, "id">[]).map(
+    (item, idx) => ({
+      id: idx,
       ...item,
     }),
   );

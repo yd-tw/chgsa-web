@@ -27,8 +27,6 @@ export default function FishingPage() {
   const [catchEffects, setCatchEffects] = useState<CatchEffect[]>([]);
   const [gameSize, setGameSize] = useState({ width: 800, height: 600 });
 
-  const fishColors = ["🐠", "🐟", "🎣", "🐡", "🦈"];
-  const fishSizes = [20, 25, 30, 35, 40];
   const fishIdRef = useRef(0);
 
   // 初始化遊戲尺寸
@@ -46,6 +44,9 @@ export default function FishingPage() {
 
   // 生成隨機魚
   const generateFish = useCallback((): Fish => {
+    const fishColors = ["🐠", "🐟", "🎣", "🐡", "🦈"];
+    const fishSizes = [20, 25, 30, 35, 40];
+
     fishIdRef.current += 1;
     const id = fishIdRef.current;
     const edge = Math.floor(Math.random() * 4);
@@ -87,9 +88,7 @@ export default function FishingPage() {
       color: fishColors[Math.floor(Math.random() * fishColors.length)],
       type: "fish",
     };
-  },
-    [gameSize],
-  );
+  }, [gameSize]);
 
   // 初始化魚群
   useEffect(() => {
@@ -102,8 +101,8 @@ export default function FishingPage() {
     const interval = setInterval(() => {
       setFish((prevFish) => {
         return prevFish.map((f) => {
-          let newX = f.x + f.speedX;
-          let newY = f.y + f.speedY;
+          const newX = f.x + f.speedX;
+          const newY = f.y + f.speedY;
           let newSpeedX = f.speedX;
           let newSpeedY = f.speedY;
 
