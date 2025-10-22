@@ -35,11 +35,11 @@ export default function ShrinePage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4 text-white">
       <HomeButton />
-      <h1 className="text-4xl font-bold mb-8">夜祭神社</h1>
+      <h1 className="mb-8 text-4xl font-bold">夜祭神社</h1>
 
-      <div className="w-80 h-56 perspective-1000 mb-4">
+      <div className="perspective-1000 mb-4 h-56 w-80">
         <AnimatePresence mode="wait">
           {selected && (
             <motion.div
@@ -48,16 +48,16 @@ export default function ShrinePage() {
               animate={{ rotateY: flipped ? 180 : 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
-              className="relative w-full h-full transform-3d"
+              className="relative h-full w-full transform-3d"
             >
               {/* Front */}
-              <div className="absolute w-full h-full backface-hidden flex items-center justify-center bg-red-800 rounded-2xl shadow-xl text-xl">
+              <div className="absolute flex h-full w-full items-center justify-center rounded-2xl bg-red-800 text-xl shadow-xl backface-hidden">
                 抽籤中...
               </div>
 
               {/* Back */}
-              <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-100 text-gray-900 p-4 rounded-2xl shadow-xl flex flex-col justify-center">
-                <div className="text-2xl font-semibold mb-2 text-center">
+              <div className="absolute flex h-full w-full rotate-y-180 flex-col justify-center rounded-2xl bg-gray-100 p-4 text-gray-900 shadow-xl backface-hidden">
+                <div className="mb-2 text-center text-2xl font-semibold">
                   {selected.type}
                 </div>
                 <div className="space-y-1 text-center">
@@ -73,7 +73,7 @@ export default function ShrinePage() {
 
       <button
         onClick={handleDraw}
-        className="mt-4 px-6 py-2 bg-red-700 hover:bg-red-600 rounded-lg text-white font-semibold shadow"
+        className="mt-4 rounded-lg bg-red-700 px-6 py-2 font-semibold text-white shadow hover:bg-red-600"
       >
         {selected ? "重新抽籤" : "抽一支籤"}
       </button>

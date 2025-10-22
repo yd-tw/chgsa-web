@@ -186,10 +186,10 @@ export default function FishingPage() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-300 to-blue-600 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-300 to-blue-600 p-4">
       <HomeButton />
-      <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
-        <h1 className="text-2xl font-bold text-center text-blue-800 mb-2">
+      <div className="mb-4 rounded-lg bg-white p-4 shadow-lg">
+        <h1 className="mb-2 text-center text-2xl font-bold text-blue-800">
           🎣 線上撈魚遊戲
         </h1>
         <div className="text-center">
@@ -200,7 +200,7 @@ export default function FishingPage() {
       </div>
 
       <div
-        className="relative bg-gradient-to-b from-cyan-200 to-blue-400 rounded-lg overflow-hidden cursor-crosshair shadow-2xl border-4 border-blue-500"
+        className="relative cursor-crosshair overflow-hidden rounded-lg border-4 border-blue-500 bg-gradient-to-b from-cyan-200 to-blue-400 shadow-2xl"
         style={{
           width: gameSize.width,
           height: gameSize.height,
@@ -228,7 +228,7 @@ export default function FishingPage() {
           {fish.map((f) => (
             <motion.div
               key={f.id}
-              className="absolute select-none pointer-events-none"
+              className="pointer-events-none absolute select-none"
               style={{
                 left: f.x - f.size / 2,
                 top: f.y - f.size / 2,
@@ -266,7 +266,7 @@ export default function FishingPage() {
           {catchEffects.map((effect) => (
             <motion.div
               key={effect.id}
-              className="absolute pointer-events-none"
+              className="pointer-events-none absolute"
               style={{
                 left: effect.x - 25,
                 top: effect.y - 25,
@@ -289,7 +289,7 @@ export default function FishingPage() {
         {Array.from({ length: 15 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-white rounded-full opacity-60"
+            className="absolute h-2 w-2 rounded-full bg-white opacity-60"
             style={{
               left: Math.random() * gameSize.width,
               top: gameSize.height,
@@ -310,7 +310,7 @@ export default function FishingPage() {
 
       <div className="mt-4 text-center text-white">
         <p className="text-sm md:text-base">🎯 點擊魚兒來捕捉它們！</p>
-        <p className="text-xs md:text-sm opacity-80">每捕捉一條魚得 10 分</p>
+        <p className="text-xs opacity-80 md:text-sm">每捕捉一條魚得 10 分</p>
       </div>
     </div>
   );

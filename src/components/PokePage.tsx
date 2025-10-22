@@ -113,23 +113,23 @@ export default function PokePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
       <HomeButton />
-      <div className="max-w-2xl w-full">
+      <div className="w-full max-w-2xl">
         {/* 標題 */}
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="mb-8 text-center"
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text">
+          <h1 className="mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-4xl font-bold text-white md:text-6xl">
             🎯 回憶戳戳樂 🎯
           </h1>
-          <p className="text-white/80 text-lg">戳擊格子，拿取在中和的回憶</p>
+          <p className="text-lg text-white/80">戳擊格子，拿取在中和的回憶</p>
         </motion.div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
-          <div className="grid grid-cols-5 gap-2 md:gap-3 mb-6">
+        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-lg">
+          <div className="mb-6 grid grid-cols-5 gap-2 md:gap-3">
             {gameGrid.map((prize, index) => (
               <motion.div
                 key={index}
@@ -141,16 +141,11 @@ export default function PokePage() {
                 <motion.button
                   onClick={() => scratchBox(index)}
                   disabled={scratchedBoxes[index] || scratchingBoxes[index]}
-                  className={`
-                    w-full aspect-square rounded-xl shadow-lg transform transition-all duration-300 relative overflow-hidden
-                    ${
-                      scratchedBoxes[index]
-                        ? `bg-gradient-to-br ${getRarityColor(prize?.rarity || "common")} scale-105`
-                        : "bg-gradient-to-br from-gray-200 to-gray-400 hover:scale-105 hover:shadow-xl cursor-pointer"
-                    }
-                    ${scratchingBoxes[index] ? "cursor-not-allowed" : ""}
-                    ${!scratchedBoxes[index] && !scratchingBoxes[index] ? "hover:from-gray-100 hover:to-gray-300" : ""}
-                  `}
+                  className={`relative aspect-square w-full transform overflow-hidden rounded-xl shadow-lg transition-all duration-300 ${
+                    scratchedBoxes[index]
+                      ? `bg-gradient-to-br ${getRarityColor(prize?.rarity || "common")} scale-105`
+                      : "cursor-pointer bg-gradient-to-br from-gray-200 to-gray-400 hover:scale-105 hover:shadow-xl"
+                  } ${scratchingBoxes[index] ? "cursor-not-allowed" : ""} ${!scratchedBoxes[index] && !scratchingBoxes[index] ? "hover:from-gray-100 hover:to-gray-300" : ""} `}
                   whileHover={{ scale: scratchedBoxes[index] ? 1.05 : 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -168,7 +163,7 @@ export default function PokePage() {
                           ease: "easeInOut",
                           times: [0, 0.2, 0.4, 0.6, 0.8, 1],
                         }}
-                        className="flex items-center justify-center h-full bg-gradient-to-br from-yellow-200 to-orange-300"
+                        className="flex h-full items-center justify-center bg-gradient-to-br from-yellow-200 to-orange-300"
                       >
                         <motion.div
                           animate={{
@@ -195,7 +190,7 @@ export default function PokePage() {
                           damping: 15,
                           duration: 0.6,
                         }}
-                        className="flex flex-col items-center justify-center h-full text-white"
+                        className="flex h-full flex-col items-center justify-center text-white"
                       >
                         <motion.div
                           initial={{ scale: 0 }}
@@ -205,7 +200,7 @@ export default function PokePage() {
                             type: "spring",
                             stiffness: 300,
                           }}
-                          className="text-lg md:text-2xl mb-1"
+                          className="mb-1 text-lg md:text-2xl"
                         >
                           {prize.emoji}
                         </motion.div>
@@ -213,7 +208,7 @@ export default function PokePage() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.4 }}
-                          className="text-[8px] md:text-xs font-bold text-center px-1 leading-tight"
+                          className="px-1 text-center text-[8px] leading-tight font-bold md:text-xs"
                         >
                           {prize.name.length > 8
                             ? prize.name.substring(0, 8) + "..."
@@ -225,7 +220,7 @@ export default function PokePage() {
                         key="hidden"
                         initial={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="flex items-center justify-center h-full"
+                        className="flex h-full items-center justify-center"
                       >
                         <span className="text-lg md:text-xl">❓</span>
                       </motion.div>
@@ -239,7 +234,7 @@ export default function PokePage() {
           <div className="text-center">
             <button
               onClick={initializeGame}
-              className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="transform rounded-xl bg-gradient-to-r from-green-500 to-teal-500 px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-green-600 hover:to-teal-600"
             >
               🔄 重新開始
             </button>
@@ -252,21 +247,21 @@ export default function PokePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
               onClick={() => setShowPrizeModal(false)}
             >
               <motion.div
                 initial={{ scale: 0, rotateY: -90 }}
                 animate={{ scale: 1, rotateY: 0 }}
                 exit={{ scale: 0, rotateY: 90 }}
-                className={`bg-gradient-to-br ${getRarityColor(currentPrize.rarity)} p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border-4 border-white/30`}
+                className={`bg-gradient-to-br ${getRarityColor(currentPrize.rarity)} w-full max-w-sm rounded-3xl border-4 border-white/30 p-8 text-center shadow-2xl`}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="text-6xl mb-4">{currentPrize.emoji}</div>
-                <h3 className="text-2xl font-bold text-white mb-4">
+                <div className="mb-4 text-6xl">{currentPrize.emoji}</div>
+                <h3 className="mb-4 text-2xl font-bold text-white">
                   {currentPrize.name}
                 </h3>
-                <div className="text-white/80 mb-6 text-sm uppercase tracking-wider">
+                <div className="mb-6 text-sm tracking-wider text-white/80 uppercase">
                   {currentPrize.rarity === "legendary" && "🌟 傳說級獎品"}
                   {currentPrize.rarity === "epic" && "💎 史詩級獎品"}
                   {currentPrize.rarity === "rare" && "⭐ 稀有獎品"}
@@ -274,7 +269,7 @@ export default function PokePage() {
                 </div>
                 <button
                   onClick={() => setShowPrizeModal(false)}
-                  className="bg-white/20 hover:bg-white/30 text-white font-bold py-2 px-6 rounded-xl backdrop-blur-sm transition-all duration-200"
+                  className="rounded-xl bg-white/20 px-6 py-2 font-bold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/30"
                 >
                   繼續遊戲
                 </button>
