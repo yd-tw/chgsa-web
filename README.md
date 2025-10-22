@@ -11,6 +11,4 @@
   <img alt="version" src="https://img.shields.io/badge/TailwindCSS-4-blue"></a>
 </div>
 
-#
-
 為中和高中 31 屆畢業典禮所建立的互動網站，涵蓋「夜祭神社」、「回憶戳戳樂」、「撈金魚」等三個遊戲。
